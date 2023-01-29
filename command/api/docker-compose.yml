@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: ./docker/nginx/dockerfile
+    volumes:
+      - ./src:/var/www/src
+    ports:
+      - 80:80
+    tty: true
+    logging:
+      driver: json-file
+      options:
+        max-file: '1'
+        max-size: 3m
+    networks:
+      - workshop-local
+    depends_on:
+      - rails
+  rails:
+    build:
+      context: .
+      dockerfile: ./docker/rails/dockerfile
+    volumes:
+      - ./src:/var/www/src
+    tty: true
+    logging:
+      driver: json-file
+      options:
+        max-file: '1'
+        max-size: 3m
+    networks:
+      - workshop-local
+networks:
+  workshop-local:
+    external: true

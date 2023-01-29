@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  vue:
+    build:
+      context: .
+      dockerfile: ./docker/vue/dockerfile
+    volumes:
+      - ./src:/var/www/src
+    tty: true
+    logging:
+      driver: json-file
+      options:
+        max-file: '1'
+        max-size: 3m
+networks:
+  default:
+    name: workshop-local
